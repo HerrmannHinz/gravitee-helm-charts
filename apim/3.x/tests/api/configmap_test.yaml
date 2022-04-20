@@ -56,3 +56,43 @@ tests:
       - matchRegex:
           path: data.[gravitee.yml]
           pattern: "cookie-secure: true"
+  - it: Set mongo keystore attributes with provided values
+    template: api/api-configmap.yaml
+    set:
+      mongo:
+        keystore:
+          path: '/path/to/keystore.p12'
+          type: 'pkcs12'
+          password: 'keystorePassword'
+          keyPassword: 'keyPassword'
+    asserts:
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "path: /path/to/keystore.p12"
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "type: pkcs12"
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "password: keystorePassword"
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "keyPassword: keyPassword"
+  - it: Set mongo truststore attributes with provided values
+    template: api/api-configmap.yaml
+    set:
+      mongo:
+        truststore:
+          path: '/path/to/truststore.jks'
+          type: 'jks'
+          password: 'truststorePassword'
+    asserts:
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "path: /path/to/truststore.jks"
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "type: jks"
+      - matchRegex:
+          path: data.[gravitee.yml]
+          pattern: "password: truststorePassword"
